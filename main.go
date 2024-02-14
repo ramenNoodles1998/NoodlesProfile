@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	var tmpl, err = template.ParseFiles("index.html")
+	var tmpl, err = template.New("body").ParseFiles("body.html")
+	tmpl.New("index").ParseFiles("index.html")
 	if err != nil {
 		fmt.Printf("Error parsing html. %#v", err.Error())
 	} else {
