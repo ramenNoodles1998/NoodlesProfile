@@ -2,13 +2,22 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"html/template"
+	"net/http"
 )
 
 type Template struct {
 	template *template.Template
-	data map[string]interface{}
+	data map[string]string
+}
+
+var TEMPLATE_MAP = map[string]map[string]string {
+	"index": {
+		"Word": "Index",
+	},
+	"body": {
+		"Word": "Body",
+	},
 }
 
 func main() {
@@ -22,42 +31,61 @@ func main() {
 		} 
 	})
 
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func renderer(templates *[]Template) {
+	for k, v := range TEMPLATE_MAP { 
+		fmt.Println(k)
+		fmt.Println(v)
+		var tmpl, err = template.New(k).ParseFiles(k + ".html")
 
-	var tmpl, err = template.New("index").ParseFiles("index.html")
+		if err != nil {
+			fmt.Printf("Error parsing html. %#v\n", err.Error())
+		} else {
+			fmt.Println("we gucci")
+		}
+		
+		var t = Template {
+			template: tmpl,
+			data: v,
+		}
 
-	if err != nil {
-		fmt.Printf("Error parsing html. %#v", err.Error())
-	} else {
-		fmt.Printf("we gucci")
+		*templates = append(*templates, t)
 	}
+
+	// var tmpl, err = template.New("index").ParseFiles("index.html")
+
+	// if err != nil {
+	// 	fmt.Printf("Error parsing html. %#v", err.Error())
+	// } else {
+	// 	fmt.Printf("we gucci")
+	// }
 	
-	var template = Template {
-		template: tmpl,
-		data: map[string]interface{}{
-			"Word": "Index",
-		},
-	}
+	// var template = Template {
+	// 	template: tmpl,
+	// 	data: map[string]string{
+	// 		"Word": "Index",
+	// 	},
+	// }
 
-	*templates = append(*templates, template)
+	// *templates = append(*templates, template)
 
-	tmpl, err = tmpl.New("body").ParseFiles("body.html")
+	// tmpl, err = tmpl.New("body").ParseFiles("body.html")
 
-	if err != nil {
-		fmt.Printf("Error parsing html. %#v", err.Error())
-	} else {
-		fmt.Printf("we gucci")
-	}
+	// if err != nil {
+	// 	fmt.Printf("Error parsing html. %#v", err.Error())
+	// } else {
+	// 	fmt.Printf("we gucci")
+	// }
 
-	template = Template {
-		template: tmpl,
-		data: map[string]interface{}{
-			"Word": "Body",
-		},
-	}
+	// template = Template {
+	// 	template: tmpl,
+	// 	data: map[string]string{
+	// 		"Word": "Body",
+	// 	},
+	// }
 
-	*templates = append(*templates, template)
+	// *templates = append(*templates, template)
 }
+
