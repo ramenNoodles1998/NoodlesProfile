@@ -1,0 +1,7 @@
+{{ define "side-nav" }}
+<div class="grid grid-rows-3 shadow-2xl rounded-lg text-2xl bg-cyan-900">
+    <div hx-post="/clicked" hx-trigger="click" class="p-3 border-b-2 border-cyan-700" hx-target="#body">About Me</div>
+    <div class="p-3 border-b-2 border-cyan-700">Portfolio</div>
+    <div class="p-3 border-t-1 order-cyan-700">Contact Me</div>
+</div>
+{{ end }}
