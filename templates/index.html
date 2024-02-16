@@ -5,26 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Noodles Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.10"
+      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <style>
       .work-sans {
-        font-family: "Work Sans", sans-serif;
+        font-family: 'Work Sans', sans-serif;
         font-optical-sizing: auto;
         font-weight: 300;
         font-style: normal;
       }
     </style>
-    </head>
-  <body class="bg-sky-950 work-sans text-slate-100">
+  </head>
+  <body class="bg-sky-950 work-sans text-slate-100" id="body">
     <div class="container mx-auto">
-      {{ template "header" . }}
-      <div class="grid grid-cols-8 gap-4">
-        {{ template "side-nav" .}}
-        {{ template "body" .}}
-      </div>
+      {{template "header"}}
+      <div class="grid grid-cols-8 gap-4">{{template "side-nav" .}}</div>
+      {{if .ContactMe }}
+      <div>{{template "contact-me"}}</div>
+      {{else if .Portfolio}}
+      <div>{{template "portfolio"}}</div>
+      {{else}}
+      <div>{{template "about-me"}}</div>
+      {{end}}
     </div>
   </body>
 </html>
