@@ -9,7 +9,6 @@ import (
 
 type Data struct {
 	NavButtonClass func(string) string 
-	GetTemplate func() string
 	TemplateName string
 }
 
@@ -19,7 +18,6 @@ func main() {
 	var t = template.Must(template.ParseGlob("templates/*.html"))
 	data = Data {
 		NavButtonClass: NavButtonClass,
-		GetTemplate: GetTemplate,
 		TemplateName: "about-me",
 	}	
 	// data = map[string]interface{} {
@@ -27,7 +25,7 @@ func main() {
 	// 	"GetTemplate": GetTemplate,
 	// 	"TemplateName": "about-me",
 	// }
-	//First fix button classes to change.
+	//TODO: First fix button classes to change.
 	//don't re render whole page just changing template part.
 
 
@@ -43,11 +41,6 @@ func main() {
 	})
 
 	http.ListenAndServe(":8080", nil)
-}
-
-func GetTemplate() string {
-	println(data.TemplateName)
-	return data.TemplateName
 }
 
 func NavButtonClass(buttonName string) string {

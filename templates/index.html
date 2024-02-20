@@ -29,9 +29,19 @@
     <div class="container mx-auto">
       {{template "header"}}
       <div class="grid grid-cols-8 gap-4">{{template "nav" .}}</div>
-      <div>
-        {{template (call .GetTemplate)}}
-      </div>
+      {{if eq .TemplateName "portfolio"}}
+        <div>
+          {{template "portfolio"}} 
+        </div>
+      {{else if eq .TemplateName "contact-me"}}
+        <div>
+          {{template "contact-me"}} 
+        </div>
+      {{else}}
+        <div>
+          {{template "about-me"}} 
+        </div>
+      {{end}}
     </div>
   </body>
 </html>
