@@ -1,9 +1,9 @@
-{{ define "side-nav" }}
+{{ define "nav" }}
 <a
   hx-post="/clicked?button=about-me"
   hx-trigger="click"
   hx-target="#body"
-  class="{{ .AboutMeButtonClass }}"
+  class="{{call .NavButtonClass "about-me"}}"
 >
   About Me
 </a>
@@ -11,7 +11,7 @@
   hx-post="/clicked?button=portfolio"
   hx-trigger="click"
   hx-target="#body"
-  class="{{ .PortfolioButtonClass }}"
+  class="{{call .NavButtonClass "portfolio"}}"
 >
   Portfolio
 </a>
@@ -19,7 +19,7 @@
   hx-post="/clicked?button=contact-me"
   hx-trigger="click"
   hx-target="#body"
-  class="{{ .ContactMeButtonClass }}"
+  class="{{call .NavButtonClass "contact-me"}}"
 >
   Contact Me
 </a>

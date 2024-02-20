@@ -6,57 +6,53 @@ import (
 	"net/http"
 )
 
+
+type Data struct {
+	NavButtonClass func(string) string 
+	GetTemplate func() string
+	TemplateName string
+}
+
+var data Data 
+
 func main() {
 	var t = template.Must(template.ParseGlob("templates/*.html"))
-	var x = map[string]interface{} {
-		"AboutMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer",
-		"PortfolioButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-		"ContactMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-		"AboutMe": true,
-		"Portfolio": false,
-		"ContactMe": false,
-	}
+	data = Data {
+		NavButtonClass: NavButtonClass,
+		GetTemplate: GetTemplate,
+		TemplateName: "about-me",
+	}	
+	// data = map[string]interface{} {
+	// 	"NavButtonClass": NavButtonClass,
+	// 	"GetTemplate": GetTemplate,
+	// 	"TemplateName": "about-me",
+	// }
+	//First fix button classes to change.
+	//don't re render whole page just changing template part.
+
 
 	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("template executed")
-		t.ExecuteTemplate(w, "index.html", x)
+		t.ExecuteTemplate(w, "index.html", data)
 	})
 
 	http.HandleFunc("/clicked", func (w http.ResponseWriter, r *http.Request) {
-		var buttonName = r.URL.Query().Get("button")
-		var d map[string]interface{}
+		data.TemplateName = r.URL.Query().Get("button")
 
-		if buttonName == "about-me"{
-			d = map[string]interface{} {
-				"AboutMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer",
-				"PortfolioButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"ContactMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"AboutMe": true,
-				"Portfolio": false,
-				"ContactMe": false,
-			}
-		} else if buttonName == "portfolio"{
-			d = map[string]interface{} {
-				"AboutMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"PortfolioButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer",
-				"ContactMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"AboutMe": false,
-				"Portfolio": true,
-				"ContactMe": false,
-			}
-		} else if buttonName == "contact-me"{
-			d = map[string]interface{} {
-				"AboutMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"PortfolioButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer",
-				"ContactMeButtonClass":"p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer",
-				"AboutMe": false,
-				"Portfolio": false,
-				"ContactMe": true,
-			}
-		}
-
-		t.ExecuteTemplate(w, "index.html", d)
+		t.ExecuteTemplate(w, "index.html", data)
 	})
 
 	http.ListenAndServe(":8080", nil)
+}
+
+func GetTemplate() string {
+	println(data.TemplateName)
+	return data.TemplateName
+}
+
+func NavButtonClass(buttonName string) string {
+	if(buttonName == data.TemplateName) {
+		return "p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer"
+	}
+	return "p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer"
 }
