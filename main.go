@@ -15,29 +15,21 @@ type Data struct {
 var data Data 
 
 func main() {
-	var t = template.Must(template.ParseGlob("templates/*.html"))
+	var t = template.Must(template.ParseGlob("templates/*.gohtml"))
 	data = Data {
 		NavButtonClass: NavButtonClass,
 		TemplateName: "about-me",
 	}	
-	// data = map[string]interface{} {
-	// 	"NavButtonClass": NavButtonClass,
-	// 	"GetTemplate": GetTemplate,
-	// 	"TemplateName": "about-me",
-	// }
-	//TODO: First fix button classes to change.
-	//don't re render whole page just changing template part.
-
 
 	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("template executed")
-		t.ExecuteTemplate(w, "index.html", data)
+		t.ExecuteTemplate(w, "index.gohtml", data)
 	})
 
 	http.HandleFunc("/clicked", func (w http.ResponseWriter, r *http.Request) {
 		data.TemplateName = r.URL.Query().Get("button")
 
-		t.ExecuteTemplate(w, "index.html", data)
+		t.ExecuteTemplate(w, "index.gohtml", data)
 	})
 
 	http.ListenAndServe(":8080", nil)
