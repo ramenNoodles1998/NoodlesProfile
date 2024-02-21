@@ -37,7 +37,7 @@ func main() {
 
 func NavButtonClass(buttonName string) string {
 	if(buttonName == data.TemplateName) {
-		return "p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-700 cursor-pointer"
+		return "p-3 rounded-t text-2xl bg-cyan-700 cursor-pointer"
 	}
-	return "p-3 hover:bg-cyan-700 hover:text-2xl rounded-t text-xl bg-cyan-900 cursor-pointer"
+	return "p-3 hover:bg-cyan-700 hover:text-2xl  hover:text-slate-100 text-xl text-slate-500 cursor-pointer"
 }
