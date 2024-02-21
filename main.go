@@ -32,7 +32,7 @@ func main() {
 		t.ExecuteTemplate(w, "index.gohtml", data)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":3000", nil)
 }
 
 func NavButtonClass(buttonName string) string {
